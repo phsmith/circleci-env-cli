@@ -144,7 +144,7 @@ class CircleCIEnvsManage:
             self.logger.error(f"Error: {error}")
             return False
 
-    def main(self, owner_type, context, project_slug, env, env_file, delete):
+    def main(self, owner_type, context, project_slug, env, env_file, list_envs, delete):
         """Manage the CircleCI Contexts and Env Vars
 
         :param owner_type: Either ``organization`` or ``account``.
@@ -177,11 +177,21 @@ class CircleCIEnvsManage:
                     context_id, None, None, create=True
                 )
 
+            if list_envs:
+                context_envs = self.circle_client.get_context_envvars(context_id, True)
+                self.logger.info("\n"+"\n".join([x["variable"] for x in context_envs]))
+                exit()
+
             if not vars and delete and context_id:
                 self.manage_context(
                     org, owner_id, owner_type, vcs_type, context,
                     context_id, None, None, delete=True
                 )
+
+        if list_envs:
+            envvars = self.circle_client.list_envvars(org, project_name, vcs_type)
+            self.logger.info("\n"+"\n".join([x["name"] for x in envvars]))
+            exit()
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             threadpool = []
@@ -248,6 +258,11 @@ class CircleCIEnvsManage:
     type=click.File("r")
 )
 @click.option(
+    "-l", "--list-envs",
+    metavar="<environment_vars_list>",
+    is_flag=True
+)
+@click.option(
     "-d", "--delete",
     metavar="<environment_var_delete>",
     is_flag=True,
@@ -268,7 +283,7 @@ class CircleCIEnvsManage:
     is_flag=True
 )
 @click.pass_context
-def cli(ctx, api_url, token, context, project, env, env_file, delete, owner_type, debug):
+def cli(ctx, api_url, token, context, project, env, env_file, list_envs, delete, owner_type, debug):
     """CLI tool for manage CircleCI contexts and environment vars
 
     All options can be specified as environment variables in the format:
@@ -277,7 +292,7 @@ def cli(ctx, api_url, token, context, project, env, env_file, delete, owner_type
 
     try:
         ctx.obj = CircleCIEnvsManage(api_url, token, debug)
-        ctx.obj.main(owner_type, context, project, env, env_file, delete)
+        ctx.obj.main(owner_type, context, project, env, env_file, list_envs, delete)
     except CircleciError as error:
         raise SystemExit(f"Error: {error}")
 

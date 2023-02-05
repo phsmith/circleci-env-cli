@@ -40,6 +40,7 @@ Options:
                                   [required]
   -e, --env <environment_var>
   -ef, --env-file <environment_vars_file>
+  -l, --list-envs
   -d, --delete                    Context only, will delete the context
                                   Context + vars, will delete the context vars
                                   Vars only, will delete the environment vars
@@ -49,6 +50,14 @@ Options:
 ```
 
 ### Examples
+
+#### List project environment variables
+```
+$ circleci-env-cli -p github/myorg/myproject -l
+>
+KEY1
+KEY2
+```
 
 #### Add project environment variables
 ```
@@ -66,7 +75,15 @@ $ circleci-env-cli -p github/myorg/myproject -e KEY1 -e KEY2 -d
 > Successfully delete variable: KEY2
 ```
 
-#### Create/update a context and add variables
+#### List context variables
+```
+$ circleci-env-cli -p github/myorg/myproject -c mycontext -l
+>
+KEY1
+KEY2
+```
+
+#### Create/update context and add variables
 ```
 $ circleci-env-cli -p github/myorg/myproject -c mycontext -e KEY1=VAL1 -e KEY2=VAL2
 The context named "mycontext" was not found. Do you want to create it? [y/n]: y
