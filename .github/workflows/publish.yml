@@ -21,6 +21,9 @@ jobs:
           python3 setup.py sdist bdist_wheel
       - name: Publish
         run: twine upload --skip-existing dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 
   push_to_docker:
     runs-on: ubuntu-latest
