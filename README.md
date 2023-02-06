@@ -1,8 +1,8 @@
 # circleci-env-cli
 [![Build Status](https://github.com/phsmith/circleci-env-cli/actions/workflows/publish.yml/badge.svg)](https://github.com/phsmith/circleci-env-cli/actions/workflows/publish.yml)
 [![PyPI version](https://img.shields.io/pypi/v/circleci-env-cli?color=yellow)](https://python.org/pypi/circleci-env-cli)
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/phsmith/circleci-env-cli?label=docker%20version&color=blue)](https://hub.docker.com/repository/docker/phsmith/circleci-env-cli)
-[![Docker Pulls](https://img.shields.io/docker/pulls/phsmith/circleci-env-cli?color=lightblue)](https://hub.docker.com/repository/docker/phsmith/circleci-env-cli)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/phsmith/circleci-env-cli?label=docker%20version&color=blue)](https://hub.docker.com/r/phsmith/circleci-env-cli)
+[![Docker Pulls](https://img.shields.io/docker/pulls/phsmith/circleci-env-cli?color=lightblue)](https://hub.docker.com/r/phsmith/circleci-env-cli)
 
 CLI tool for manage CircleCI contexts and environment vars
 
