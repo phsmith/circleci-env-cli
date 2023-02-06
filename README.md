@@ -15,7 +15,13 @@ pip install circleci-env-cli
 
 ### Install via Docker
 ```
-docker run --rm phsmith/circleci-env-cli:latest [OPTIONS]
+docker pull phsmith/circleci-env-cli:[VERSION]
+
+# Run example
+docker run --rm -it \
+  -v $HOME/project/.env:/env \
+  -e CIRCLE_TOKEN=${CIRCLE_TOKEN} \
+  phsmith/circleci-env-cli:latest [OPTIONS]
 ```
 
 ## Usage
