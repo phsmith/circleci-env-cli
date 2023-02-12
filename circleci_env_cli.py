@@ -155,8 +155,15 @@ class CircleCIEnvsManage:
         :param delete: Delete envs or the context (``True``, ``False``). Defaults to``False``.
         """
 
-        vcs_type, org, project_name = project_slug.split("/")
         vars = []
+
+        try:
+            vcs_type, org, project_name = project_slug.split("/")
+        except ValueError:
+            raise SystemExit(
+                "> Error: Invalid project slug. Should be in the format: "
+                "(github or bitbucket)/org_name/project_name"
+            )
 
         if env:
             vars += list(env)
@@ -189,9 +196,13 @@ class CircleCIEnvsManage:
                 )
 
         if list_envs:
-            envvars = self.circle_client.list_envvars(org, project_name, vcs_type)
-            self.logger.info("\n"+"\n".join([x["name"] for x in envvars]))
-            exit()
+            try:
+                envvars = self.circle_client.list_envvars(org, project_name, vcs_type)
+                self.logger.info("\n"+"\n".join([x["name"] for x in envvars]))
+                exit()
+            except Exception as error:
+                self.logger.error(error)
+
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             threadpool = []
