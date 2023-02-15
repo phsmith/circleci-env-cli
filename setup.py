@@ -8,7 +8,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name='circleci-env-cli',
-    version='0.2.1',
+    version='0.2.2',
     author = "Phillipe Smith",
     author_email = "phsmithcc@gmail.com",
     description = "CLI tool for manage CircleCI contexts and environment vars",

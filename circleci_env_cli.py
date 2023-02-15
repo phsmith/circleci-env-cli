@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import logging
+import sys
 from concurrent.futures import as_completed, ThreadPoolExecutor
 
 import click
 from pycircleci.api import Api, CircleciError
+
 
 class CircleCIEnvsManage:
     """CircleCI environment variables managent Class"""
@@ -21,12 +23,14 @@ class CircleCIEnvsManage:
         if debug:
             logging.basicConfig(
                 level=logging.DEBUG,
-                format="[%(levelname)s] %(module)s:%(funcName)s - %(message)s"
+                format="[%(levelname)s] %(module)s:%(funcName)s - %(message)s",
+                stream=sys.stdout
             )
         else:
             logging.basicConfig(
                 level=logging.INFO,
-                format="> %(message)s"
+                format="> %(message)s",
+                stream=sys.stdout
             )
 
         self.logger = logging.getLogger(__class__.__name__)
@@ -101,7 +105,7 @@ class CircleCIEnvsManage:
 
                     if confirm.lower() == "y":
                         self.circle_client.delete_context(context_id)
-                        self.logger.info(f"Successfully delete context")
+                        self.logger.info("Successfully delete context")
 
                     exit()
                 else:
@@ -202,7 +206,6 @@ class CircleCIEnvsManage:
                 exit()
             except Exception as error:
                 self.logger.error(error)
-
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             threadpool = []
