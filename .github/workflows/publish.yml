@@ -42,11 +42,8 @@ jobs:
         run: |
           IMAGE_ID=ghcr.io/${{ github.actor }}/$IMAGE_NAME
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
           # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          VERSION=${GITHUB_REF_NAME/v/}
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
@@ -62,11 +59,8 @@ jobs:
 
           IMAGE_ID=${{ github.actor }}/$IMAGE_NAME
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
           # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          VERSION=${GITHUB_REF_NAME/v/}
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
